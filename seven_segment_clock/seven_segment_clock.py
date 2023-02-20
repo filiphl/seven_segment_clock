@@ -36,12 +36,12 @@ def minute(seconds: int) -> int:
     return int((seconds - int(seconds / 60 / 60) * 60 * 60) / 60)
 
 
-def lamp(digit: int) -> list[int]:
+def lamp(digit: str) -> list[int]:
     """Get list of segments to light up for a digit.
 
     Parameters
     ----------
-    digit : int
+    digit : str
         Digit for which we want a list of segments to light.
 
     Returns
@@ -49,18 +49,18 @@ def lamp(digit: int) -> list[int]:
     list[int]
         List of segments to light up.
     """
-    digit_segments = [
-        [1, 1, 0, 1, 1, 1, 1],  # 0
-        [0, 1, 0, 0, 1, 0, 0],  # 1
-        [1, 1, 1, 0, 0, 1, 1],  # 2
-        [1, 1, 1, 0, 1, 1, 0],  # 3
-        [0, 1, 1, 1, 1, 0, 0],  # 4
-        [1, 0, 1, 1, 1, 1, 0],  # 5
-        [1, 0, 1, 1, 1, 1, 1],  # 6
-        [1, 1, 0, 0, 1, 0, 0],  # 7
-        [1, 1, 1, 1, 1, 1, 1],  # 8
-        [1, 1, 1, 1, 1, 1, 0],  # 9
-    ]
+    digit_segments = {
+        "0": [1, 1, 0, 1, 1, 1, 1],
+        "1": [0, 1, 0, 0, 1, 0, 0],
+        "2": [1, 1, 1, 0, 0, 1, 1],
+        "3": [1, 1, 1, 0, 1, 1, 0],
+        "4": [0, 1, 1, 1, 1, 0, 0],
+        "5": [1, 0, 1, 1, 1, 1, 0],
+        "6": [1, 0, 1, 1, 1, 1, 1],
+        "7": [1, 1, 0, 0, 1, 0, 0],
+        "8": [1, 1, 1, 1, 1, 1, 1],
+        "9": [1, 1, 1, 1, 1, 1, 0],
+    }
     return digit_segments[digit]
 
 
@@ -83,16 +83,12 @@ def showClock(seconds: int, base24: bool) -> list[list[int]]:
     seconds = seconds % (60 * 60 * 24)
     hour_number = hour(seconds, base24)
     minute_number = minute(seconds)
-    digits = [
-        int(hour_number / 10),
-        hour_number - int(hour_number / 10) * 10,
-        int(minute_number / 10),
-        minute_number - int(minute_number / 10) * 10,
-    ]
+    digits = f"{hour_number:02d}{minute_number:02d}"
     return [lamp(digit) for digit in digits]
 
 
 def display_clock(segment_lists):
+    """Just for fun."""
     digits = []
     for segment_list in segment_lists:
         digit = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
